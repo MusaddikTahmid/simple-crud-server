@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const { MongoClient, ServerApiVersion } = require("mongodb");
 const app = express();
 const port = process.env.PORT || 5000;
 
@@ -10,9 +11,8 @@ app.use(express.json());
 // simple-crud-server
 // hlO14VduBpWvgzXo
 
-const { MongoClient, ServerApiVersion } = require("mongodb");
 const uri =
-  "mongodb+srv://simple-crud-server:<password>@cluster0.bthdiuf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
+  "mongodb+srv://simple-crud-server:hlO14VduBpWvgzXo@cluster0.bthdiuf.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri, {
@@ -27,6 +27,12 @@ async function run() {
   try {
     // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
+
+    app.post("/users", async (req, res) => {
+      const user = req.body;
+      console.log("new user", user);
+    });
+
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });
     console.log(
@@ -34,7 +40,7 @@ async function run() {
     );
   } finally {
     // Ensures that the client will close when you finish/error
-    await client.close();
+    // await client.close();
   }
 }
 run().catch(console.dir);
