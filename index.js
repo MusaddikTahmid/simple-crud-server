@@ -31,11 +31,22 @@ async function run() {
     const database = client.db("userDB");
     const userCollection = database.collection("users");
 
+    app.get("/users", async (req, res) => {
+      const cursor = userCollection.find();
+      const results = await cursor.toArray();
+      res.send(results);
+    });
+
     app.post("/users", async (req, res) => {
       const user = req.body;
       console.log("new user", user);
       const result = await userCollection.insertOne(user);
-      res.json(result);
+      res.send(result);
+    });
+
+    app.delete("/users/:id", (req, res) => {
+      const id = req.params.id;
+      console.log("please delete from database", id);
     });
 
     // Send a ping to confirm a successful connection
