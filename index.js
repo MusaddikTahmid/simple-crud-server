@@ -37,6 +37,10 @@ async function run() {
       res.send(results);
     });
 
+    app.get("/users/:id", async (req, res) => {
+      const id = req.params.id;
+    });
+
     app.post("/users", async (req, res) => {
       const user = req.body;
       console.log("new user", user);
